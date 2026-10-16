@@ -374,45 +374,45 @@
       title: 'Logo / Icon Design',
       mode: 'logo-mode',
       items: [
-        { src: 'assets/logos/crimson.png', label: 'Crimson Tech' },
-        { src: 'assets/logos/builderlytics.png', label: 'Builderlytics' },
-        { src: 'assets/logos/Health Foundation.png', label: 'Health Promotion Foundation' },
-        { src: 'assets/logos/revitize.png', label: 'Revitize Education' },
-        { src: 'assets/logos/CTgarud.png', label: 'CT Garud' },
-        { src: 'assets/logos/nimto.png', label: 'Nimto Kithcen' },
-        { src: 'assets/logos/skillx.png', label: 'SkillX' },
-        { src: 'assets/logos/kalika youth club.png', label: 'Kalika Youth Club' },
-        { src: 'assets/logos/futuregenic logo.png', label: 'Futurgenic.' },
-        { src: 'assets/logos/ocr.png', label: 'OCR' }
+        { src: 'assets/logos/crimson.webp', label: 'Crimson Tech' },
+        { src: 'assets/logos/builderlytics.webp', label: 'Builderlytics' },
+        { src: 'assets/logos/Health Foundation.webp', label: 'Health Promotion Foundation' },
+        { src: 'assets/logos/revitize.webp', label: 'Revitize Education' },
+        { src: 'assets/logos/CTgarud.webp', label: 'CT Garud' },
+        { src: 'assets/logos/nimto.webp', label: 'Nimto Kithcen' },
+        { src: 'assets/logos/skillx.webp', label: 'SkillX' },
+        { src: 'assets/logos/kalika youth club.webp', label: 'Kalika Youth Club' },
+        { src: 'assets/logos/futuregenic logo.webp', label: 'Futurgenic.' },
+        { src: 'assets/logos/ocr.webp', label: 'OCR' }
       ]
     },
     illustration: {
       title: 'Illustration Work',
       mode: 'ill-mode',
       items: [
-        { src: 'assets/illustrations/Anya.png', label: 'Extra Illustration 1' },
-        { src: 'assets/illustrations/setsukoo.png', label: 'Couple' },
-        { src: 'assets/illustrations/Naruto.png', label: 'Couple' },
-        { src: 'assets/illustrations/Fake mask - Copy.png', label: 'Papercut' },
-        { src: 'assets/illustrations/cartoonboy.png', label: 'Extra Illustration 1' },
-        { src: 'assets/illustrations/kumari.png', label: 'Couple' },
-        { src: 'assets/illustrations/1234.png', label: 'Couple' },
-        { src: 'assets/illustrations/234.png', label: 'Explorer Boy' },
-        { src: 'assets/illustrations/couple.png', label: 'Anime Girl' },
-        { src: 'assets/illustrations/night illustration.png', label: 'Extra Illustration 1' }
+        { src: 'assets/illustrations/Anya.webp', label: 'Extra Illustration 1' },
+        { src: 'assets/illustrations/setsukoo.webp', label: 'Couple' },
+        { src: 'assets/illustrations/Naruto.webp', label: 'Couple' },
+        { src: 'assets/illustrations/Fake mask - Copy.webp', label: 'Papercut' },
+        { src: 'assets/illustrations/cartoonboy.webp', label: 'Extra Illustration 1' },
+        { src: 'assets/illustrations/kumari.webp', label: 'Couple' },
+        { src: 'assets/illustrations/1234.webp', label: 'Couple' },
+        { src: 'assets/illustrations/234.webp', label: 'Explorer Boy' },
+        { src: 'assets/illustrations/couple.webp', label: 'Anime Girl' },
+        { src: 'assets/illustrations/night illustration.webp', label: 'Extra Illustration 1' }
       ]
     },
     social: {
       title: 'Social Media & Marketing',
       mode: 'post-mode',
       items: [
-        { src: 'assets/posts/machine vision.jpg', label: 'Machine Vision Products' },
-        { src: 'assets/posts/omr.jpg', label: 'OMR' },
-        { src: 'assets/posts/nakayoshi.jpg', label: 'Nakayoshi' },
-        { src: 'assets/posts/cosmo.jpg', label: 'Cosmo' },
-        { src: 'assets/posts/bestPTE1.jpg', label: 'PTE' },
-        { src: 'assets/posts/ieltspristine.jpg', label: 'PTE' },
-        { src: 'assets/posts/nakayoshi1.jpg', label: 'Cover', wide: true }
+        { src: 'assets/posts/machine vision.webp', label: 'Machine Vision Products' },
+        { src: 'assets/posts/omr.webp', label: 'OMR' },
+        { src: 'assets/posts/nakayoshi.webp', label: 'Nakayoshi' },
+        { src: 'assets/posts/cosmo.webp', label: 'Cosmo' },
+        { src: 'assets/posts/bestPTE1.webp', label: 'PTE' },
+        { src: 'assets/posts/ieltspristine.webp', label: 'PTE' },
+        { src: 'assets/posts/nakayoshi1.webp', label: 'Cover', wide: true }
       ]
     }
   };
