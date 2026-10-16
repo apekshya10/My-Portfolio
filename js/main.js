@@ -379,11 +379,11 @@
         { src: 'assets/logos/Health Foundation.webp', label: 'Health Promotion Foundation' },
         { src: 'assets/logos/revitize.webp', label: 'Revitize Education' },
         { src: 'assets/logos/CTgarud.webp', label: 'CT Garud' },
-        { src: 'assets/logos/nimto.webp', label: 'Nimto Kithcen' },
+        { src: 'assets/logos/Nimto.webp', label: 'Nimto Kithcen' },
         { src: 'assets/logos/skillx.webp', label: 'SkillX' },
         { src: 'assets/logos/kalika youth club.webp', label: 'Kalika Youth Club' },
         { src: 'assets/logos/futuregenic logo.webp', label: 'Futurgenic.' },
-        { src: 'assets/logos/ocr.webp', label: 'OCR' }
+        { src: 'assets/logos/OCR.webp', label: 'OCR' }
       ]
     },
     illustration: {
