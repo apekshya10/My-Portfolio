@@ -1289,7 +1289,28 @@ footer { text-align: center; padding: 0 0 24px; color: #50565F; font-size: 13.5p
 
 @media (max-width: 760px) {
   :root { --section-y: 36px; --section-y-lg: 48px; }
-  .wrap { padding: 0 20px; }
+  .wrap { padding: 0 20px; }  .project-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .project-card .info {
+    display: contents;
+  }
+
+  .project-card .logo-mark {
+    order: 1;
+    margin-bottom: 12px;
+  }
+
+  .project-card .visual {
+    order: 2;
+    margin-bottom: 16px;
+  }
+
+  .project-card .text-block {
+    order: 3;
+  }
 
   .site-header { padding: 14px 0; }
   .nav-pill {
