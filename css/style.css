@@ -1637,6 +1637,6 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 @media (max-width: 760px) {
   .hero { padding-bottom: 16px; }                                   /* was ~100px of air between the hero buttons and About */
   .about-skill .sk-sub { font-size: 12px; color: #667085; }         /* 11px light grey was hard to read */
-  .project-card .text-block { gap: 12px; }                          /* tighter gap between the description and its button */
-  .project-card .actions { padding-top: 8px; }
+  .project-card .text-block { gap: 8px; }                           /* tighter text spacing */
+  .project-card .actions { padding-top: 14px; }                     /* a bit more room between last text and buttons */
 }
