@@ -661,6 +661,41 @@
       .people-tag, .slide-count, .node small { font-size: 12px; }
       .arrow { width: 36px; height: 36px; }
     }
+        /* ---------- 12. Phone spacing & type polish ---------- */
+    ...
+    @media (max-width: 760px) {
+      ...
+      .arrow { width: 36px; height: 36px; }
+    }
+
+    /* ---------- 13. Poppins headings + normal body text ---------- */
+    .case-title,
+    .sec-body h2 {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+    }
+    .sec-body p.med {
+      font-weight: 400;
+    }
+    .sec-body p.med strong {
+      font-weight: 700;
+    }
+    /* ---------- 13. Title in Poppins, section headings in Tomato Grotesk Bold ---------- */
+        .case-title {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      font-size: clamp(24px, 2.8vw, 24px);   /* was clamp(28px, 3.2vw, 38px) */
+    }
+    .sec-body h2 {
+      font-family: 'Tomato Grotesk', 'Poppins', sans-serif;
+      font-weight: 700;
+    }
+    .sec-body p.med {
+      font-weight: 400;
+    }
+    .sec-body p.med strong {
+      font-weight: 700;
+    }
   </style>
 </head>
 <body>
@@ -761,8 +796,8 @@
         <div class="sec-body">
           <h2>What am I designing?</h2>
           <p>SkillX is an Australian skills assessment and migration platform. It helps skilled professionals find the right occupation, understand their eligibility, complete a formal skills assessment, and track their application — all in one place.</p>
-          <p class="med">Audience: Skilled professionals, migrants, agents, and internal admins.</p>
-          <p class="med">Goal: Turn a high-stakes, fragmented process into a clear, guided journey that feels manageable at every step.</p>
+         <p class="med"><strong>Audience:</strong> Skilled professionals, migrants, agents, and internal admins.</p>
+<p class="med"><strong>Goal:</strong> Turn a high-stakes, fragmented process into a clear, guided journey that feels manageable at every step.</p>
         </div>
       </section>
  

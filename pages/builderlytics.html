@@ -687,6 +687,34 @@
       .people-tag, .slide-count, .node small { font-size: 12px; }
       .arrow { width: 36px; height: 36px; }
     }
+    /* ---------- 13. Poppins headings + normal body text ---------- */
+    .case-title,
+    .sec-body h2 {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+    }
+    .sec-body p.med {
+      font-weight: 400;
+    }
+    .sec-body p.med strong {
+      font-weight: 700;
+    }
+    /* ---------- 13. Title in Poppins, section headings in Tomato Grotesk Bold ---------- */
+        .case-title {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      font-size: clamp(24px, 2.8vw, 24px);   /* was clamp(28px, 3.2vw, 38px) */
+    }
+    .sec-body h2 {
+      font-family: 'Tomato Grotesk', 'Poppins', sans-serif;
+      font-weight: 700;
+    }
+    .sec-body p.med {
+      font-weight: 400;
+    }
+    .sec-body p.med strong {
+      font-weight: 700;
+    }
 
   </style>
 </head>
@@ -1217,8 +1245,8 @@
         <p class="card-lead">Field users work with gloves, small screens, and weak internet. Managers work across many sites and need the full picture without noise.</p>
         <div class="people">
           <div class="people-col">
-            <span class="people-tag">Saraj · Field worker, 38</span>
-            <p>Needs to log time and photos fast. Pain points: slow paper processes and no feedback after reporting.</p>
+            <span class="people-tag">Andrew · Field worker, 38</span>
+            <p>Needs to log time and photos fast.<br>Pain points: slow paper processes and no feedback after reporting.</p>
             <ul class="bullets">
               <li>Log time and photos quickly</li>
               <li>Log progress and updates without friction</li>
@@ -1227,7 +1255,7 @@
           </div>
           <div class="people-col">
             <span class="people-tag">Lukas · Project manager, 35</span>
-            <p>Needs progress and risk across sites. Pain points: late field data and fragmented tools.</p>
+           <p>Needs progress and risk across sites.<br>Pain points: late field data and fragmented tools.</p>
             <ul class="bullets">
               <li>See progress and safety in real time</li>
               <li>Spot delays and risks early</li>
