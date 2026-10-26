@@ -1689,7 +1689,8 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 }
 
 /* Footer Say Hello: envelope icon stays still (the generic outline-button arrow nudge doesn't apply) */
-.contact-actions .contact-hello svg { flex: none; }
+.contact-actions .contact-hello svg { flex: 
+  none; }
 .contact-actions .contact-hello:hover svg { transform: none; }
 
 /* Phones: spacing and type polish */
@@ -1813,4 +1814,188 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   .about-skill { padding: 9px 7px; }
   .about-skill .sk-label { font-size: 12px; }
   .about-skill .sk-sub { font-size: 10px; }
+}
+
+/* ===== Homepage animations (paste at the very end of style.css) ===== */
+/* ==========================================================================
+   animations.css — playful motion layer for the portfolio homepage
+   --------------------------------------------------------------------------
+   Rules this file follows so nothing lags:
+   - Only compositor-friendly properties: opacity + the individual
+     `translate`, `rotate`, `scale` properties (they COMPOSE with the
+     existing `transform` rules in style.css, so nothing fights).
+   - No scroll-driven filters, no layout-affecting animation.
+   - Everything lives inside `prefers-reduced-motion: no-preference`,
+     except the pinned "A" (which is a layout fix, not an effect).
+   - Hidden "before" states only apply once animations.js adds `html.anim`,
+     so if the script ever fails, the page just shows normally.
+   ========================================================================== */
+
+/* ---------- Hero: the "A" is pinned, the role text swaps beside it ---------- */
+.role-rotator { text-align: left; }          /* width is locked in JS to the longest role */
+
+.hero-a { display: inline-block; flex: none; }
+
+@media (prefers-reduced-motion: no-preference) {
+
+  /* ---------- Hero headline: letters bounce in, then react to the cursor ---------- */
+  .hero-card h1.is-split { opacity: 1; animation: none; }
+  .hero-card h1 .word { display: inline-block; white-space: nowrap; }
+  .hero-card h1 .ch {
+    display: inline-block;
+    opacity: 0;
+    translate: 0 .7em;
+    rotate: 10deg;
+    scale: .8;
+    transform-origin: 50% 100%;
+    animation: chIn .85s var(--spring) forwards;
+    animation-delay: calc(.25s + var(--ci, 0) * 45ms);
+  }
+  @keyframes chIn { to { opacity: 1; translate: 0 0; rotate: 0deg; scale: 1; } }
+
+  .hero-card h1.is-settled .ch {
+    opacity: 1; translate: 0 0; rotate: 0deg; scale: 1;
+    animation: none;
+      }
+
+  /* ---------- Split headings: words slide up out of a mask ---------- */
+  .sw { display: inline-block; overflow: hidden; vertical-align: top; padding: .08em .04em .18em; margin: -.08em -.04em -.18em; }
+  .sw > span {
+    display: inline-block;
+    translate: 0 115%;
+    rotate: 5deg;
+    transform-origin: 0 100%;
+    transition: translate .85s var(--ease) calc(var(--wi, 0) * 70ms), rotate .85s var(--ease) calc(var(--wi, 0) * 70ms);
+  }
+  .sw-in .sw > span { translate: 0 0; rotate: 0deg; }
+
+  /* ---------- Underlines draw themselves ---------- */
+  html.anim .underline { transform-origin: left center; scale: 0 1; }
+  html.anim .underline.center { transform-origin: center; }
+  html.anim .reveal.visible .underline,
+  html.anim .reveal.visible.underline { scale: 1 1; transition: scale .9s var(--ease) .35s; }
+
+  /* ---------- Section entrances (use translate/rotate/scale, not transform) ---------- */
+  html.anim .about-text.reveal,
+  html.anim .about-visual.reveal,
+  html.anim .contact-card.reveal {
+    transition: opacity .6s var(--ease), transform .6s var(--ease), translate 1s var(--ease), rotate 1s var(--ease), scale 1s var(--ease);
+  }
+  html.js.anim .about-text.reveal:not(.visible)   { translate: -44px 0; }
+  html.js.anim .about-visual.reveal:not(.visible) { translate: 60px 0; rotate: 4deg; }
+  html.js.anim .contact-card.reveal:not(.visible) { scale: .93; }
+
+  /* About: tool pills pop in one by one */
+  html.anim .about-visual:not(.visible) .tool-pill,
+  html.anim .about-visual:not(.visible) .tools-label { opacity: 0; }
+  html.anim .about-visual.visible .tool-pill { animation: popIn .7s var(--spring) backwards; }
+  html.anim .about-visual.visible .tools-label { animation: popIn .6s var(--spring) .4s backwards; }
+  html.anim .about-visual.visible .tool-pill:nth-child(1) { animation-delay: .55s; }
+  html.anim .about-visual.visible .tool-pill:nth-child(2) { animation-delay: .63s; }
+  html.anim .about-visual.visible .tool-pill:nth-child(3) { animation-delay: .71s; }
+  html.anim .about-visual.visible .tool-pill:nth-child(4) { animation-delay: .79s; }
+  html.anim .about-visual.visible .tool-pill:nth-child(5) { animation-delay: .87s; }
+  @keyframes popIn { from { opacity: 0; scale: .2; translate: 0 16px; rotate: -20deg; } }
+
+  /* About: skill icons jiggle when their card is hovered */
+  .about-skill:hover .sk-icon svg { animation: jiggle .6s var(--ease); }
+  @keyframes jiggle { 25% { rotate: -14deg; } 55% { rotate: 12deg; } 80% { rotate: -5deg; } }
+
+  /* ---------- Project cards: contents stagger in as each card arrives ---------- */
+  html.anim .project-card :is(.logo-mark, .cat, .impact, .desc, .actions) {
+    transition: opacity .7s var(--ease), translate .7s var(--ease);
+  }
+  html.anim .project-card .visual {
+    transition: opacity .8s var(--ease) .15s, translate .9s var(--ease) .15s, scale .9s var(--ease) .15s;
+  }
+  html.anim .project-card:not(.card-in) :is(.logo-mark, .cat, .impact, .desc, .actions) { opacity: 0; translate: 0 22px; }
+  html.anim .project-card:not(.card-in) .visual { opacity: 0; translate: 36px 0; scale: .92; }
+  html.anim .project-card .logo-mark { transition-delay: .05s; }
+  html.anim .project-card .cat       { transition-delay: .12s; }
+  html.anim .project-card .impact    { transition-delay: .20s; }
+  html.anim .project-card .desc      { transition-delay: .28s; }
+  html.anim .project-card .actions   { transition-delay: .36s; }
+  @media (max-width: 760px) {
+    html.anim .project-card:not(.card-in) .visual { translate: 0 24px; }
+  }
+  .project-card:hover .logo-mark img { animation: wobble .7s var(--ease); }
+  @keyframes wobble { 20% { rotate: -7deg; scale: 1.06; } 50% { rotate: 6deg; } 80% { rotate: -2deg; } }
+
+  /* ---------- Beyond UI/UX: 3D flip + front card bobs gently ---------- */
+  .stack-area { perspective: 1400px; }
+  .stack-card { backface-visibility: hidden; }
+  .stack-card[data-pos="0"] { animation: bob 4.2s ease-in-out infinite; }
+  .stack-card[data-pos="0"]:hover { animation-play-state: paused; }
+  @keyframes bob { 50% { translate: 0 -9px; rotate: .7deg; } }
+  .stack-card figcaption { transition: scale .3s var(--spring), rotate .3s var(--spring); }
+  .stack-card:hover figcaption { scale: 1.12; rotate: -2deg; }
+
+  /* ---------- Contact: drifting circles + pulsing primary button ---------- */
+  .contact-card::before { animation: driftA 9s ease-in-out infinite; }
+  .contact-card::after  { animation: driftB 11s ease-in-out infinite; }
+  @keyframes driftA { 50% { translate: 34px 22px; scale: 1.18; } }
+  @keyframes driftB { 50% { translate: -28px -26px; scale: 1.25; } }
+
+
+}
+
+/* ===== Case-study animations (used by js/anim.js) ===== */
+/* ==========================================================================
+   cs-anim.css — styles for js/anim.js on case study pages
+   Link it AFTER your page CSS:  <link rel="stylesheet" href="../css/cs-anim.css">
+   Hidden "before" states only apply once anim.js adds `html.js-anim`,
+   so with JS off (or reduced motion) everything simply shows.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+
+  :root { --cs-ease: cubic-bezier(.22, 1, .36, 1); --cs-spring: cubic-bezier(.34, 1.56, .64, 1); }
+
+  /* ---------- Reveal (+ variants via data-anim) ---------- */
+  html.js-anim .cs-reveal {
+    opacity: 0;
+    translate: 0 36px;
+    transition: opacity .8s var(--cs-ease), translate .9s var(--cs-ease), scale .9s var(--cs-ease), rotate .9s var(--cs-ease), filter .9s var(--cs-ease), clip-path 1.1s var(--cs-ease);
+  }
+  html.js-anim .cs-reveal[data-anim="left"]  { translate: -48px 0; }
+  html.js-anim .cs-reveal[data-anim="right"] { translate: 48px 0; }
+  html.js-anim .cs-reveal[data-anim="zoom"]  { translate: 0 0; scale: .9; }
+  html.js-anim .cs-reveal[data-anim="tilt"]  { translate: 0 40px; rotate: 3deg; scale: .96; }
+  html.js-anim .cs-reveal[data-anim="blur"]  { translate: 0 20px; filter: blur(10px); }
+  html.js-anim .cs-reveal[data-anim="mask"]  { opacity: 1; translate: 0 0; clip-path: inset(0 0 100% 0 round 16px); }
+
+  html.js-anim .cs-reveal.is-visible {
+    opacity: 1; translate: 0 0; scale: 1; rotate: 0deg; filter: none;
+    clip-path: inset(0 0 0 0 round 16px);
+  }
+  html.js-anim .cs-reveal[data-anim="mask"].is-visible { clip-path: inset(0 0 0 0 round 16px); }
+
+  /* ---------- Stagger children ---------- */
+  html.js-anim .cs-stagger > * {
+    opacity: 0;
+    translate: 0 28px;
+    scale: .97;
+    transition: opacity .7s var(--cs-ease), translate .8s var(--cs-spring), scale .8s var(--cs-spring);
+    transition-delay: calc(var(--i, 0) * 80ms);
+  }
+  html.js-anim .cs-stagger > *.is-visible { opacity: 1; translate: 0 0; scale: 1; }
+
+  /* ---------- Split headline words ---------- */
+  .sw { display: inline-block; overflow: hidden; vertical-align: top; padding: .08em .04em .18em; margin: -.08em -.04em -.18em; }
+  .sw > span {
+    display: inline-block;
+    translate: 0 115%;
+    rotate: 5deg;
+    transform-origin: 0 100%;
+    transition: translate .85s var(--cs-ease) calc(var(--wi, 0) * 70ms), rotate .85s var(--cs-ease) calc(var(--wi, 0) * 70ms);
+  }
+  .sw-in .sw > span { translate: 0 0; rotate: 0deg; }
+
+  /* ---------- Tilt cards / parallax ---------- */
+  [data-tilt] { transition: transform .35s var(--cs-ease); will-change: transform; }
+  [data-parallax] { will-change: translate; }
+
+  /* ---------- Progress bar + header ---------- */
+  #csScrollBar { transform-origin: left center; will-change: transform; }
+  .site-header { transition: padding .3s var(--cs-ease), box-shadow .3s var(--cs-ease); }
 }

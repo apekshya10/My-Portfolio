@@ -658,3 +658,178 @@
     console.error('Role rotator error:', err);
   }
 })();
+
+/**
+ * animations.js — playful motion layer for the homepage.
+ * Load AFTER main.js:  <script src="js/animations.js" defer></script>
+ *
+ * Performance rules:
+ *  - Only animates opacity / translate / rotate / scale (compositor-only).
+ *  - rAF loops start on demand and stop when idle (no permanent loops).
+ *  - IntersectionObserver for everything scroll-triggered (no new scroll polling,
+ *    except one passive, rAF-throttled listener for hero parallax).
+ *  - Cursor / magnetic / parallax effects only run for a real mouse.
+ */
+(function () {
+  'use strict';
+
+  const root = document.documentElement;
+  const $ = (s, c) => (c || document).querySelector(s);
+  const $$ = (s, c) => Array.from((c || document).querySelectorAll(s));
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const finePointer = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const ROLES = ['Product Designer', 'UI/UX Designer', 'Graphic Designer'];
+
+  /* ======================================================================
+     1. Pinned "A" — wrap it, and lock the rotator to the widest role so the
+        "A" never shifts when the role text changes width.
+     ====================================================================== */
+  let aEl = null;
+  function pinA() {
+    const h2 = $('.hero-card h2');
+    if (!h2) return;
+    aEl = $('.hero-a', h2);
+    if (!aEl) {
+      const textNode = Array.from(h2.childNodes).find(n => n.nodeType === 3 && /\S/.test(n.textContent));
+      if (!textNode) return;
+      aEl = document.createElement('span');
+      aEl.className = 'hero-a';
+      aEl.textContent = textNode.textContent.trim();
+      textNode.replaceWith(aEl);
+    }
+    lockRotatorWidth();
+  }
+
+  function lockRotatorWidth() {
+    const rot = $('#roleRotator');
+    const txt = $('#roleText');
+    if (!rot || !txt) return;
+    const cs = getComputedStyle(txt);
+    const probe = document.createElement('span');
+    probe.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;left:-9999px;top:0;';
+    probe.style.fontFamily = cs.fontFamily;
+    probe.style.fontSize = cs.fontSize;
+    probe.style.fontWeight = cs.fontWeight;
+    probe.style.letterSpacing = cs.letterSpacing;
+    document.body.appendChild(probe);
+    let max = 0;
+    ROLES.forEach(r => { probe.textContent = r; max = Math.max(max, probe.getBoundingClientRect().width); });
+    probe.remove();
+    if (max) rot.style.width = Math.ceil(max) + 2 + 'px';
+  }
+
+  pinA();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(lockRotatorWidth);
+  window.addEventListener('load', lockRotatorWidth);
+  let rzT;
+  window.addEventListener('resize', () => { clearTimeout(rzT); rzT = setTimeout(lockRotatorWidth, 120); }, { passive: true });
+
+  if (reduce) return; // everything below is decoration
+  root.classList.add('anim');
+
+  /* helper: restart a CSS animation class */
+  function replay(el, cls) {
+    el.classList.remove(cls);
+    void el.offsetWidth;
+    el.classList.add(cls);
+  }
+  const heroEl = $('.hero');
+  const heroOff = () => !!(heroEl && heroEl.classList.contains('is-offscreen'));
+
+  /* ======================================================================
+     2. Hero headline — letters bounce in, wiggle on hover, random one hops
+     ====================================================================== */
+  (function splitHeadline() {
+    const h1 = $('.hero-card h1');
+    if (!h1 || h1.dataset.split) return;
+    h1.dataset.split = '1';
+    const text = h1.textContent.trim();
+    h1.setAttribute('aria-label', text);
+    h1.textContent = '';
+    let ci = 0;
+    text.split(/(\s+)/).forEach(tok => {
+      if (!tok) return;
+      if (/^\s+$/.test(tok)) { h1.appendChild(document.createTextNode(' ')); return; }
+      const w = document.createElement('span');
+      w.className = 'word';
+      w.setAttribute('aria-hidden', 'true');
+      Array.from(tok).forEach(c => {
+        const s = document.createElement('span');
+        s.className = 'ch';
+        s.textContent = c;
+        s.style.setProperty('--ci', ci++);
+        w.appendChild(s);
+      });
+      h1.appendChild(w);
+    });
+    h1.classList.add('is-split');
+    setTimeout(() => h1.classList.add('is-settled'), 250 + ci * 45 + 900);
+
+  })();
+
+  /* ======================================================================
+     5. Split headings — words rise out of a mask
+     ====================================================================== */
+  function splitWords(el) {
+    if (el.dataset.split) return;
+    el.dataset.split = '1';
+    el.setAttribute('aria-label', el.textContent.replace(/\s+/g, ' ').trim());
+    let wi = 0;
+    (function walk(node) {
+      Array.from(node.childNodes).forEach(n => {
+        if (n.nodeType === 3) {
+          const frag = document.createDocumentFragment();
+          n.textContent.split(/(\s+)/).forEach(p => {
+            if (!p) return;
+            if (/^\s+$/.test(p)) { frag.appendChild(document.createTextNode(' ')); return; }
+            const w = document.createElement('span');
+            w.className = 'sw';
+            w.setAttribute('aria-hidden', 'true');
+            const inner = document.createElement('span');
+            inner.textContent = p;
+            inner.style.setProperty('--wi', wi++);
+            w.appendChild(inner);
+            frag.appendChild(w);
+          });
+          n.replaceWith(frag);
+        } else if (n.nodeType === 1 && n.tagName !== 'BR') {
+          walk(n);
+        }
+      });
+    })(el);
+  }
+  const splitIO = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting || e.boundingClientRect.top < 0) { e.target.classList.add('sw-in'); splitIO.unobserve(e.target); }
+  }), { threshold: .3 });
+  $$('.projects .head h2, .beyond .head h2, .about-text h2, .contact-card h2').forEach(h => { splitWords(h); splitIO.observe(h); });
+
+  /* ======================================================================
+     6. Project cards — contents stagger in when each card arrives
+     ====================================================================== */
+  const cardIO = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting || e.boundingClientRect.top < 0) { e.target.classList.add('card-in'); cardIO.unobserve(e.target); }
+  }), { threshold: .2, rootMargin: '0px 0px -8% 0px' });
+  $$('.project-card').forEach(c => cardIO.observe(c));
+
+
+  /* ======================================================================
+     10. "Beyond UI/UX" — the card that moves to the front flips in.
+         main.js already rotates the cards automatically; this only adds the
+         flip (works for autoplay, dots, and swipes). Uses the `rotate`
+         property so it composes with the existing positioning transforms.
+     ====================================================================== */
+  (function flipCards() {
+    const cards = $$('.stack-card');
+    if (!cards.length || !('animate' in Element.prototype)) return;
+    const mo = new MutationObserver(muts => muts.forEach(m => {
+      const el = m.target;
+      if (el.getAttribute('data-pos') === '0' && m.oldValue !== '0') {
+        el.animate(
+          [{ rotate: 'y 95deg', opacity: .25 }, { rotate: 'y -8deg', opacity: 1, offset: .75 }, { rotate: 'y 0deg', opacity: 1 }],
+          { duration: 800, easing: 'cubic-bezier(.22,1,.36,1)' }
+        );
+      }
+    }));
+    cards.forEach(c => mo.observe(c, { attributes: true, attributeFilter: ['data-pos'], attributeOldValue: true }));
+  })();
+})();
