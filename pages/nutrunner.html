@@ -762,6 +762,20 @@
   @keyframes mDriftB { 50% { translate: -28px -26px; scale: 1.25; } }
 }
 
+  
+    /* ---------- Slimmer navbar (desktop only; phones keep their current header) ---------- */
+    @media (min-width: 761px) {
+      .site-header { padding: 12px 0; }
+      .site-header.is-scrolled { padding: 8px 0; }
+      .brand-logo { height: 42px; }
+      .nav-pill { padding: 5px; }
+      .nav-pill a { padding: 8px 18px; }
+      .back-link { top: 76px; }
+    }
+    @media (min-width: 901px) {
+      .header-actions .btn-black { padding: 10px 20px; }
+      .header-actions .icon-circle { width: 40px; height: 40px; min-width: 40px; min-height: 40px; }
+    }
   </style>
 </head>
 <body data-gate-key="nutrunner" data-gate-fallback="../index.html#projects">

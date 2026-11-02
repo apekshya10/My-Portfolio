@@ -1707,7 +1707,7 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   .project-card .impact {
     margin: 0;               /* removes the default heading margins */
     font-size: 22px;
-    line-height: 1.;
+    line-height: 1.3;
   }
   .project-card .cat { margin: 0; }
 }
@@ -2012,4 +2012,17 @@ html.anim .project-card:not(.card-in) .visual {
 html.anim .project-card:not(.card-in) .visual img { scale: .96; }
 html.anim .project-card .visual img {
   transition: transform .65s cubic-bezier(.16, 1, .3, 1), opacity .7s cubic-bezier(.22, 1, .36, 1) .2s;
+}
+
+/* Slimmer navbar (desktop only; phones keep their current header) */
+@media (min-width: 761px) {
+  .site-header { padding: 12px 0; }
+  .site-header.is-scrolled { padding: 8px 0; }
+  .brand-logo { height: 42px; }
+  .nav-pill { padding: 5px; }
+  .nav-pill a { padding: 8px 18px; }
+}
+@media (min-width: 901px) {
+  .header-actions .btn-black { padding: 10px 20px; }
+  .header-actions .icon-circle { width: 40px; height: 40px; }
 }
